@@ -7,7 +7,7 @@ import ProjectLogo from './ProjectLogo';
 import Player from './Player/Player';
 
 
-function Main({ onPlayerExtend, isPlayerExtend, isLandscape, isMobile, onSetCurrentTrack, currentTrack, isVideoModalOpened, onVideoModalOpen }) {
+function Main({ onPlayerExtend, isPlayerExtend, isLandscape, isMobile, onSetCurrentTrack, currentTrack, isVideoModalOpened, onVideoModalOpen, refanalyzerCanvas }) {
   const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
   const isNarrowDesktop = useMediaQuery({ query: '(max-width: 1024px)' });
   const isShortMobile = useMediaQuery({ query: '(max-width: 480px) and (max-height: 550px)' });
@@ -67,6 +67,8 @@ function Main({ onPlayerExtend, isPlayerExtend, isLandscape, isMobile, onSetCurr
         currentTrack={currentTrack}
         onSetCurrentTrack={onSetCurrentTrack}
         isVideoModalOpened={isVideoModalOpened}
+        // v3
+        refanalyzerCanvas={refanalyzerCanvas}
       />
     </section>
   )

@@ -1,5 +1,5 @@
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useMediaQuery } from 'react-responsive'
 import Main from './Main';
 import Info from './Info';
@@ -9,6 +9,7 @@ import Blur from './Blur';
 import VideoModal from './VideoModal';
 import backgroundBlur from '../images/background-blur.jpg';
 import tracks from '../db/tracks';
+import VisualizerCanvas from './VisualizerCanvas';
 
 function App() {
   const [isPlayerExtend, setPlayerState] = useState(false);
@@ -26,6 +27,7 @@ function App() {
     src: '',
     youtubeId: '',
   });
+  const analyzerCanvas = useRef();
 
   function onVideoModalOpen({ title, src, youtubeId }) {
     setVideoModalData({ title, src, youtubeId });
@@ -72,6 +74,8 @@ function App() {
           currentTrack={currentTrack}
           isVideoModalOpened={isVideoModalOpened}
           onVideoModalOpen={onVideoModalOpen}
+          // v3
+          refanalyzerCanvas={analyzerCanvas}
         />
         <Info />
         <Footer
@@ -93,6 +97,13 @@ function App() {
           videoModalData={videoModalData}
           isVideoModalOpened={isVideoModalOpened}
           onVideoModalClose={onVideoModalClose}
+        />
+        <VisualizerCanvas
+          isMobile={isMobile}
+          isLandscape={isLandscape}
+          isPlaying={true}
+          track={currentTrack}
+          refanalyzerCanvas={analyzerCanvas}
         />
       </div>
     </div>

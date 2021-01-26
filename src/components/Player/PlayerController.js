@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import './PlayerController.css';
 import useAudioPlayer from '../../hooks/useAudioPlayer';
 import useTicker from '../../hooks/useTicker';
@@ -7,10 +7,20 @@ import PlayerTimer from './PlayerTimer';
 import ControlBtn from './ControlBtn';
 import BackwardBtn from './BackwardBtn';
 import ForwardBtn from './ForwardBtn';
+import visualize from '../../utils/visualize'
+import { useMediaQuery } from 'react-responsive';
+window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
-function PlayerController({ isPlayerExtend, isVideoModalOpened, track, onForwardClick, onBackwardClick, onTrackEnd }) {
+function PlayerController({ isPlayerExtend, isVideoModalOpened, track, onForwardClick, onBackwardClick, onTrackEnd, refanalyzerCanvas }) {
   const trackRef = useRef();
   const audioPlayerRef = useRef();
+
+  const [audioCtx, setAudioCtx] = useState(null);
+  const isMobile = useMediaQuery({ query: '(max-width: 480px), (max-height: 600px)' });
+  
+  useEffect(() => {
+    visualize(audioPlayerRef, isMobile, refanalyzerCanvas, setAudioCtx)
+  }, [isMobile, refanalyzerCanvas]);
 
   useTicker({
     elementRef: trackRef,
@@ -36,6 +46,13 @@ function PlayerController({ isPlayerExtend, isVideoModalOpened, track, onForward
       handlePlayClick();
     }
   }, [isVideoModalOpened]);
+
+  // TODO - когда будет готова новая визуализация, включить
+  if (isPlaying && audioCtx) {
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume()
+    }
+  }
 
   return (
     <>

@@ -6,8 +6,7 @@ function VisualizerCanvas({ isMobile, isLandscape, isPlaying, track, refanalyzer
     <div className='visualizer'>
       <canvas
         className={cn('visualizer__bar',
-          { 'visualizer__bar_active': !isMobile && !isLandscape && isPlaying },
-          { 'visualizer__bar_active-and-theme': track.theme.backgroundImage.includes('gradient') })}
+          { 'visualizer__bar_active': !isMobile && !isLandscape && isPlaying })}
         ref={refanalyzerCanvas}
         id="analyzer">
       </canvas>

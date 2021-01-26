@@ -9,7 +9,7 @@ import VideoBtn from './VideoBtn';
 import PlayerCover from './PlayerCover';
 import tracks from '../../db/tracks';
 
-function Player ({ isPlayerExtend, onPlayerExtend, style, currentTrack, onSetCurrentTrack, isVideoModalOpened }) {
+function Player({ isPlayerExtend, onPlayerExtend, style, currentTrack, onSetCurrentTrack, isVideoModalOpened, refanalyzerCanvas }) {
   const [isTextInfo, setTextInfo] = useState(false);
   const [isExtendElementsMounted, setIsExtendElementsMounted] = useState(false);
 
@@ -21,7 +21,7 @@ function Player ({ isPlayerExtend, onPlayerExtend, style, currentTrack, onSetCur
       if (!isPlayerExtend) {
         setIsExtendElementsMounted(false);
       }
-    } 
+    }
   });
 
   const handleExtendClick = () => {
@@ -73,10 +73,10 @@ function Player ({ isPlayerExtend, onPlayerExtend, style, currentTrack, onSetCur
       setIsExtendElementsMounted(true);
     }
   }, [isPlayerExtend]);
-  
+
   return (
     <section className="player" style={style}>
-      {isExtendElementsMounted && 
+      {isExtendElementsMounted &&
         <AnimatedPlayerCover
           image={currentTrack.albumPicture}
           style={extendPlayerAnimationConfig}
@@ -92,22 +92,25 @@ function Player ({ isPlayerExtend, onPlayerExtend, style, currentTrack, onSetCur
         onForwardClick={handleForwardClick}
         onBackwardClick={handleBackwardClick}
         onTrackEnd={handleTrackEnd}
+        // v3
+        refanalyzerCanvas={refanalyzerCanvas}
       />
       <ExtendBtn
         isOpen={isPlayerExtend}
         onBtnClick={handleExtendClick}
       />
-      {isPlayerExtend && 
+      {isPlayerExtend &&
         <PlayerInfoContainer
-        isOpen={isPlayerExtend}
-        onTrackClick={onSetCurrentTrack}
-        tracks={tracks}
-        isTextInfo={isTextInfo}
-        currentTrack={currentTrack}
+          isOpen={isPlayerExtend}
+          onTrackClick={onSetCurrentTrack}
+          tracks={tracks}
+          isTextInfo={isTextInfo}
+          currentTrack={currentTrack}
+
         />
       }
       {isExtendElementsMounted &&
-        <animated.div 
+        <animated.div
           className="player__buttons-wrapper"
           style={extendPlayerAnimationConfig}
         >
@@ -116,9 +119,9 @@ function Player ({ isPlayerExtend, onPlayerExtend, style, currentTrack, onSetCur
             isTextInfo={isTextInfo}
           />
           {currentTrack.videoLink &&
-            <VideoBtn 
+            <VideoBtn
               videoLink={currentTrack.videoLink}
-            /> 
+            />
           }
         </animated.div>
       }

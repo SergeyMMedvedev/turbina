@@ -1,4 +1,4 @@
-import renderFrame from './renderFrame'
+import renderFrame from './renderFrame3'
 
 function visualize(audioPlayerRef, isMobile, analyzerCanvas, setAudioCtx) {
   try {
@@ -15,16 +15,18 @@ function visualize(audioPlayerRef, isMobile, analyzerCanvas, setAudioCtx) {
       const audioSrc = context.createMediaElementSource(audio);
       const analyser = context.createAnalyser();
       const canvas = analyzerCanvas.current;
-      const ctx = canvas.getContext('2d');
-      const freqData = new Uint8Array(analyser.frequencyBinCount);
+      const context2d = canvas.getContext('2d');
+      analyser.fftSize = 256;
+      const freqByteData = new Uint8Array(analyser.frequencyBinCount);
       audioSrc
         .connect(analyser)
         .connect(context.destination);
       analyser.connect(context.destination);
       setAudioCtx(context);
-      renderFrame(analyser, ctx, freqData, analyzerCanvas);
+      renderFrame(analyser, context2d, freqByteData, analyzerCanvas, audio);
     }
   } catch (e) {
+    console.log(e)
     return
   }
 }
